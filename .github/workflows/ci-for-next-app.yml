@@ -16,6 +16,9 @@ jobs:
         with:
           node-version: '22'
           cache: 'pnpm'
+
+      - name: Setup pnpm
+        run: corepack enable
       
       # 3. 安装依赖
       - name: Install dependencies
