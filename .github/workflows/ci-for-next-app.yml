@@ -1,0 +1,41 @@
+name: CI for Next.js App
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 获取代码
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      # 2. 设置Node环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 4. 代码检查
+      - name: Run lint
+        run: pnpm lint
+
+      # 5. 运行测试
+      - name: Run tests
+        run: pnpm test
+
+      # 6. 构建生产包
+      - name: Build
+        run: pnpm build
+
+      # 7. 上传构建产物，供后续下载
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
