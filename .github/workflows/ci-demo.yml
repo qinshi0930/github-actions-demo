@@ -1,0 +1,10 @@
+name: CI demo # 工作流名称，会显示在仓库的Actions页面
+
+on: [push] # 触发时机：每次推送时运行
+
+jobs: # 定义工作流程
+  say-hello: # job id
+    runs-on: ubuntu-latest # 指定 job 的运行环境
+    steps: # job 具体要做什么
+      - run: echo '代码推送成功，自动化流程启动！'
+      - run: echo '当前分支：${{ github.ref }}'
