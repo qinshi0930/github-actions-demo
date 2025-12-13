@@ -10,35 +10,38 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
 
-      # 2. 设置Node环境
+      # 2. 设置pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10'
+
+      # 3. 设置Node环境
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
 
-      - name: Setup pnpm
-        run: corepack enable
-      
-      # 3. 安装依赖
+      # 4. 安装依赖
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 4. 代码检查
+      # 5. 代码检查
       - name: Run lint
         run: pnpm lint
 
-      # 5. 运行测试
+      # 6. 运行测试
       - name: Run tests
         run: pnpm test
 
-      # 6. 构建生产包
+      # 7. 构建生产包
       - name: Build
         run: pnpm build
 
-      # 7. 上传构建产物，供后续下载
+      # 8. 上传构建产物，供后续下载
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: dist/
+          path: .next/
